@@ -1,0 +1,47 @@
+% !TEX TS-program = luatex
+% Awesome Source CV LaTeX Template
+%
+% This template has been downloaded from:
+% https://github.com/darwiin/awesome-neue-latex-cv
+%
+% Author:
+% Christophe Roger (Darwiin)
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+
+\documentclass[localFont,alternative]{yaac-another-awesome-cv}
+\name{Laura}{Manor}
+\tagline{Graduate Student | Computational Linguist}
+% \photo{2cm}{sig1.jpg}
+\socialinfo{
+    \email{manor@utexas.edu} \website{http://www.lauramanor.com/}{lauramanor.com}\\
+	\github{lauramanor} \linkedin{lauramanor}\\
+% 	\smartphone{+687 123 456}
+	\address{Austin, Texas}\\
+% 	\infos{Né le 23 septembre 1982 (35 ans) à Nouméa, Nouvelle-Calédonie}
+}
+
+\begin{document}
+
+	\makecvheader
+
+	\makecvfooter
+		{\textsc{\selectlanguage{english}\today}} %
+		{\textsc{Laura Manor - CV}}
+		{\thepage}
+
+	\input{section_headline}
+	\input{section_competences}				% Section Skills
+	\input{section_scolarite}				% Section Education
+	\input{section_experience_research}		% Section Relevant Experience | research
+	\input{section_projets}                 % Section Projects
+	\input{section_awards}	
+	\input{section_langues}					% Section Language
+	
+	%\input{section_interets}				% Section Interests
+
+	\input{section_references} 				% Section References
+
+
+\end{document}
