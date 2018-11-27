@@ -17,7 +17,7 @@
 %
 % This work consists of the files awesome-source-cv.cls 
 
-\ProvidesClass{yaac-another-awesome-cv}[2018/07/19  v1.9.2 'YAAC: Another Awesome CV' Class]
+\ProvidesClass{yaac-another-awesome-cv}[2018/10/17  v1.10.2 'YAAC: Another Awesome CV' Class]
 
 \LoadClass[a4paper]{article}
 
@@ -56,14 +56,14 @@
 
 % Dependences
 %A Few Useful Packages
-\RequirePackage[french,english]{babel}
+\RequirePackage[english,french]{babel}
 \RequirePackage[utf8]{luainputenc}
 \RequirePackage{fontspec} 					                 % for loading fonts
 \RequirePackage{url,parskip} 	    % other packages for formatting
 \RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{fullpage}
 \RequirePackage[margin=1.5cm]{geometry}
-\RequirePackage{fontawesome}
+\RequirePackage{fontawesome5}
 \RequirePackage{hyperref}
 \RequirePackage{titlesec}
 \RequirePackage{array}
@@ -165,14 +165,23 @@
 \newlength{\leftcolumn}
 \setlength{\leftcolumn}{2.5cm}
 
+% Font Awesome icons box
+\NewDocumentCommand\faIconBox{m s O{solid}}{
+  \makebox[1.2em][c]{\IfBooleanTF{#2}{\csname fa#1\endcsname*}{\csname fa#1\endcsname}[#3]}
+}
+
 % Font Awesome icons aliases
-\newcommand{\mailSymbol}{\faAt}
-\newcommand{\locationSymbol}{\faMapMarker}
-\newcommand{\infoSymbol}{\faInfo}
-\newcommand{\linkedinSymbol}{\faLinkedin}
-\newcommand{\viadeoSymbol}{\faViadeo}
-\newcommand{\mobileSymbol}{\faMobilePhone}
-\newcommand{\githubSymbol}{\faGithub}
+\newcommand{\mailSymbol}{\faIconBox{At}}
+\newcommand{\locationSymbol}{\faIconBox{MapMarker}*}
+\newcommand{\infoSymbol}{\faIconBox{Info}}
+\newcommand{\linkedinSymbol}{\faIconBox{LinkedinIn}}
+\newcommand{\viadeoSymbol}{\faIconBox{Viadeo}}
+\newcommand{\mobileSymbol}{\faIconBox{Mobile}*}
+\newcommand{\githubSymbol}{\faIconBox{Github}}
+\newcommand{\mediumSymbol}{\faIconBox{Medium}}
+\newcommand{\bitbucketSymbol}{\faIconBox{Bitbucket}}
+\newcommand{\websiteSymbol}{\faIconBox{Link}}
+
 
 \newcommand\link[2]{\color{linkcolor}\href{#1}{#2}\color{Black} }
 \newcommand\important[1]{\textbf #1}
@@ -189,11 +198,11 @@
 
 % Render a text with its symbol
 % Usage; \socialtext{<icon>}{<label>}
-\newcommand{\socialtext}[2]{\mbox{\textcolor{symbolcolor}{#1}\hspace{0.5em}#2\hspace{1em}}}
+\newcommand{\socialtext}[2]{\mbox{\textcolor{symbolcolor}{#1}#2\hspace{0.8em}}}
 
 % Render a link with its symbol
 % Usage; \sociallink{<icon>}{<label>}
-\newcommand{\sociallink}[3]{\mbox{\textcolor{symbolcolor}{#1}\hspace{0.5em}\link{#2}{#3}\hspace{1em}}}
+\newcommand{\sociallink}[3]{\mbox{\textcolor{symbolcolor}{#1}\link{#2}{#3}\hspace{0.8em}}}
 
 % Define author's name
 % Usage: \name{<firstname>}{<lastname>}
@@ -234,13 +243,21 @@
 % Usage: \github{<github-nick>}
 \newcommand*{\github}[1]{\sociallink{\githubSymbol}{https://www.github.com/#1}{github.com/#1}}           % Github icon + URL
 
+% Render author's medium (optional)
+% Usage: \medium{<medium-nick>}
+\newcommand*{\medium}[1]{\sociallink{\mediumSymbol}{https://www.medium.com/@#1}{medium.com/#1}} 
+
+% Render author's bitbucket (optional)
+% Usage: \bitbucket{<bitbucket-account-name>}
+\newcommand*{\bitbucket}[1]{\sociallink{\bitbucketSymbol}{https://bitbucket.com/#1}{bitbucket.com/#1}}
+
 % Render author's email (optional)
 % Usage: \email{<email adress>}
 \newcommand*{\email}[1]{\sociallink{\mailSymbol}{mailto:#1}{#1}}
 
 % Render a website link (optional)
-% Usage: \email{<email adress>}
-\newcommand*{\website}[2]{\sociallink{\faExternalLink}{#1}{#2}}
+% Usage: \website{<website name>}{<website adress>}
+\newcommand*{\website}[2]{\sociallink{\websiteSymbol}{#1}{#2}}
 
 % Render author's mobile phone (optional)
 % Usage: \smartphone{<mobile phone number>}
@@ -272,7 +289,7 @@
     \ifundef{\@photodiameter}{
       \begin{minipage}{\linewidth}
     }{
-      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-3em}
+      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}
     }
     \color{accentcolor}\user{\@firstname}{\@lastname}\color{black}\\
     \small{\@socialinfo}
@@ -287,7 +304,7 @@
     \ifundef{\@photodiameter}{
       \begin{minipage}{\linewidth}
     }{
-      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-4em}
+      \begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}
     }
     \user{\@firstname}{\@lastname}\\
     \resumetitle{\@tagline}
@@ -334,33 +351,17 @@
 \newcolumntype{Y}{>{\raggedleft}p{\leftcolumn}}
 
 % Define the 'scholarship' environment
-% \newenvironment{education}{%
-%   \begin{tabular}{Y p{\rightcolumnlength}}
-% }{%
-%   \end{tabular}
-% }
-
-\newenvironment{education}{%
-  \begin{longtable}{R{\leftcolumn}|E}
+\newenvironment{scholarship}{%
+  \begin{tabular}{Y p{\rightcolumnlength}}
 }{%
-  \end{longtable}
+  \end{tabular}
 }
 
-
-% Render an experience in the experiences environment
-% Usage: 
-% \experience
-%  {<date range>}      {<Degree>}{<School>}{<Location>}
-%  {<expected?>}     {
-%                      <Description>
-%                    }
-\newcommand\school[6]{
-  \textbf{#1}    & \textbf{#2\textemph{#3}, #4}   								\\*
-  \textbf{#5}    & \begin{minipage}[t]{\rightcolumnlength}
-  					         #6
-                   \end{minipage}										\\*
-
-  }
+% Render a scholarshipentry in the scolarship environment
+% Usage: \scholarshipentry{<date>}{<description>}
+\newcommand\scholarshipentry[2]{
+  #1    &  #2 \\
+}
 
 % Define the 'skills' environment
 \newenvironment{skills}{%
@@ -372,7 +373,7 @@
 % Render a skill in the skills environment
 % Usage: \skill{<skill>}{<level>}
 \newcommand\skill[2]{
-  \textbf{#1}    & \foreach \x in {1,...,5}{{\color{accentcolor!80} \ifnumgreater{\x}{#2}{\faCircleThin}{\faCircle}}\enspace } \\
+  \textbf{#1}    & \foreach \x in {1,...,5}{{\color{accentcolor!80} \ifnumgreater{\x}{#2}{\faCircle[regular]}{\faCircle}}\enspace } \\
 }
 
 \newcolumntype{E}{>{\raggedright\arraybackslash}p{\rightcolumnlength}}
@@ -392,21 +393,33 @@
 %                      <Experience description (Could be a list)>
 %                    }
 %                    {<Technology list>}
-\newcommand\experiencetech[7]{
+\newcommand\experience[7]{
   \textbf{#1}    & \textbf{#2, \textsc{#3}, #4}   								\\*
   \textbf{#5}    & \begin{minipage}[t]{\rightcolumnlength}
   					         #6
                    \end{minipage}										\\*
-                 & \footnotesize{\foreach \n in {#7}{\cvtag{\n}}} 	\\* \\
+                 & \footnotesize{\foreach \n in {#7}{\cvtag{\n}}} 	\\
   }
 
-\newcommand\experience[6]{
+% Render a consultant experience in the experiences environment
+% Usage: 
+% \consultantexperience
+%  {<End date>}      {<Consultant title>}{<Consulting Enterprise>}{<Country>}
+%  {<Start date}     {<Client title>}{<Client business unit>}
+%                    {
+%                      <Experience description (Could be a list)>
+%                    }
+%                    {<Technology list>}
+\newcommand\consultantexperience[9]{
   \textbf{#1}    & \textbf{#2, \textsc{#3}, #4}   								\\*
-  \textbf{#5}    & \begin{minipage}[t]{\rightcolumnlength}
-  					         #6
-                   \end{minipage}		 \\*	 \\							
+  \textbf{#5}    & \emph{#6} pour \textsc{#7}                       				\\*
+  				       & 	\begin{minipage}[t]{\rightcolumnlength}
+  						        #8
+                   	\end{minipage}										\\*
+                 & \footnotesize{\foreach \n in {#9}{\cvtag{\n}}} 	\\
   }
 
+\newcommand\emptySeparator{\multicolumn{2}{c}{}\\}
 
 % Define the 'projects' environment
 \newenvironment{projects}{%
@@ -450,40 +463,25 @@
   \bigskip
 }
 
-% \newcommand*\referee[5]{
-%   \hspace{1em}
-%   \begin{minipage}[t]{\dimexpr(\linewidth/3) - 3em}
-%     \begin{tabular}{>{}l >{}l >{}l >{}l >{}l}
-%       \multicolumn{2}{l}{\textbf{#1}}\\ %Name
-%       \multicolumn{2}{l}{#2}\\ %Title
-%       \multicolumn{2}{l}{#3}\\ %Dept
-%       \multicolumn{2}{1}{#4}\\ %Address
-%       \quad \mailSymbol & \href{mailto:#5}{#5} \\  
-%     \end{tabular}
-%   \end{minipage}%
-% }
-
-
-
 \newcommand*\referee[5]{
   \hspace{1em}
   \begin{minipage}[t]{\dimexpr(\linewidth/3) - 3em}
     \begin{tabular}{>{}l >{}l}
-      \multicolumn{2}{l}{\textbf{#1}, \emph{#2}}\\
-      \multicolumn{2}{l}{\textsc{#3}}\\
+      \multicolumn{2}{l}{\textbf{#1}}\\
+      \multicolumn{2}{l}{\emph{#2}, \textsc{#3}}\\
       \quad \mailSymbol & \href{mailto:#4}{#4} \\  
       \quad \faPhone & #5 \\
     \end{tabular}
   \end{minipage}%
-}
-
-
-\newenvironment{awards}{%
-  \begin{longtable}{R{\leftcolumn}|E}
-}{%
-  \end{longtable}
-}
-\newcommand\award[3]{
-  \textbf{#1}    & \textbf{#2} #3   	\\*
-
   }
+
+\newcommand*\refereeMailOnly[4]{
+  \hspace{1em}
+  \begin{minipage}[t]{\dimexpr(\linewidth/3) - 3em}
+    \begin{tabular}{>{}l >{}l}
+      \multicolumn{2}{l}{\textbf{#1}}\\
+      \multicolumn{2}{l}{\emph{#2}, \textsc{#3}}\\
+      \quad \mailSymbol & \href{mailto:#4}{#4} \\  
+    \end{tabular}
+  \end{minipage}%
+}
