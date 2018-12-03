@@ -185,7 +185,7 @@
 
 % Render author's name
 % Usage: \user{<firstanme>}{<lastname>}
-\newcommand\user[2]{\color{accentcolor}{\LARGE #1 \textsc{\textbf{#2}}}\color{Black}}
+\newcommand\user[2]{\color{accentcolor}{\Huge #1 \textsc{\textbf{#2}}}\color{Black}\vspace{.4em} }
 
 % Render a text with its symbol
 % Usage; \socialtext{<icon>}{<label>}
@@ -254,7 +254,7 @@
 	 }
 	 \bigskip
   }{
-    \color{accentcolor}\textbf{\large{#1}}\color{black}
+    \color{accentcolor}\textbf{\Large{#1}}\color{black}
   }
 }
 
@@ -274,11 +274,12 @@
     }{
       \begin{minipage}{\dimexpr\linewidth-\@photodiameter-2em}
     }
-    \color{accentcolor}\user{\@firstname}{\@lastname}\color{black}\\
+    \color{accentcolor}\user{\@firstname}{\@lastname} \color{black} \\
+    
     \small{\@socialinfo}
     \end{minipage}
     \ifdef{\@photodiameter}{
-      \begin{minipage}{\@photodiameter}
+      \begin{minipage}{\@photodiameter-2em}
         \idphoto
       \end{minipage}
     }{}
@@ -299,7 +300,7 @@
         \idphoto
       \end{minipage}
     }{}
-    \bigskip
+    % \bigskip
   }
 }
 
@@ -435,6 +436,23 @@
   \\*
 }
 
+\newcommand\projectnolink[4]{
+  \begin{minipage}[t]{\dimexpr(\linewidth) - 1.5em}
+    \textbf{\textsc{#1}} \hfill \textsc{#2}\smallskip\\
+    #3\smallskip\\
+    \footnotesize{\foreach \n in {#4}{\cvtag{\n}}}\\
+  \end{minipage}
+  \\*
+}
+
+\newcommand\projectsimple[3]{
+  \begin{minipage}[t]{\dimexpr(\linewidth) - 1.5em}
+    \textbf{\textsc{#1}} \hfill \textsc{#2}\smallskip\\
+    #3\smallskip\\
+  \end{minipage}
+  \\*
+}
+
 
 \newcommand*\twocolumnsection[2]{
   \begin{minipage}[t]{\dimexpr(\linewidth/2) - 3em}
@@ -468,14 +486,13 @@
 
 
 
-\newcommand*\referee[5]{
+\newcommand*\referee[4]{
   \hspace{1em}
   \begin{minipage}[t]{\dimexpr(\linewidth/3) - 3em}
     \begin{tabular}{>{}l >{}l}
       \multicolumn{2}{l}{\textbf{#1}, \emph{#2}}\\
       \multicolumn{2}{l}{\textsc{#3}}\\
-      \quad \mailSymbol & \href{mailto:#4}{#4} \\  
-      \quad \faPhone & #5 \\
+      \multicolumn{2}{l}{ \email{#4} }\\  
     \end{tabular}
   \end{minipage}%
 }
